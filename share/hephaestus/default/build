@@ -1,0 +1,168 @@
+#!/bin/bash
+
+set -e -u
+
+distro_name="Pantheon Linux"
+distro_website="http://pantheonlinux.org"
+distro_short=pantheon
+iso_name=pantheon
+iso_label="PANTHEON_$(date +%Y%m)"
+iso_version=$(date +%Y.%m.%d)
+install_dir=pantheon
+arch=$(uname -m)
+work_dir=work
+out_dir=out
+live_user=olympian
+live_pass=olympian
+root_pass=olympian
+verbose="y"
+
+script_path=$(readlink -f ${0%/*})
+export LC_ALL=en_US.UTF-8
+base_packages=`sed -e 's/\#.*//' -e 's/[ ^I]*$$//' -e '/^$$/ d' ${script_path}/packages.base`
+packages_any=`sed -e 's/\#.*//' -e 's/[ ^I]*$$//' -e '/^$$/ d' ${script_path}/packages.any`
+packages_686=`sed -e 's/\#.*//' -e 's/[ ^I]*$$//' -e '/^$$/ d' ${script_path}/packages.i686`
+packages_x86=`sed -e 's/\#.*//' -e 's/[ ^I]*$$//' -e '/^$$/ d' ${script_path}/packages.x86_64`
+
+initialize_pacman() {
+	cp "overlay/etc/pacman.${arch}.conf" "/etc/pacman.conf"
+}
+
+# Base installation (root-image)
+make_basefs() {
+    mkarchiso ${verbose} -w "${work_dir}" -D "${install_dir}" -p "${base_packages}" create
+}
+
+# Install packages (root-image)
+make_packages() {
+    mkarchiso ${verbose} -w "${work_dir}" -D "${install_dir}" -p "${packages_any}" create
+    if [[ "${arch}" == "i686" ]]; then
+      if [[ "x${packages_686}" != "x" ]]; then
+        mkarchiso ${verbose} -w "${work_dir}" -D "${install_dir}" -p "${packages_686}" create
+      fi
+    else
+      if [[ "x${packages_x86}" != "x" ]]; then
+        mkarchiso ${verbose} -w "${work_dir}" -D "${install_dir}" -p "${packages_x86}" create
+      fi
+    fi
+}
+
+# Add LiveCD User, and Password root to the same user
+make_liveuser() {
+    if [[ ! -e "${work_dir}/root-image/home/${live_user}" ]]; then
+		chroot ${work_dir}/root-image useradd -d "/home/${live_user}" -m -u 1000 -g 100 -G wheel,power,storage -s /bin/bash ${live_user}
+		echo ${live_pass} >> /tmp/passwd.${live_user}
+		echo ${live_pass} >> /tmp/passwd.${live_user}
+		echo ${root_pass} >> /tmp/passwd.root
+		echo ${root_pass} >> /tmp/passwd.root
+		chroot ${work_dir}/root-image passwd ${live_user} < /tmp/passwd.${live_user}
+		chroot ${work_dir}/root-image passwd root < /tmp/passwd.root
+		rm -rf /tmp/passwd.${live_user}
+		rm -rf /tmp/passwd.root
+	fi
+}
+
+make_clean_themes() {
+  cd ${work_dir}/root-image/usr/share/themes
+  ls | grep -v theme | grep -v other-theme | xargs rm -rf
+  cd /tmp/pantheon
+}
+
+# Customize for Pantheon
+make_pantheon() {
+    make_packages
+    cp -R overlay/* "${work_dir}/root-image/"
+    mv "${work_dir}/root-image/etc/pacman.${arch}.conf" "${work_dir}/root-image/etc/pacman.conf"
+    if [[ "${arch}" == "x86_64" ]]; then
+        rm "${work_dir}/root-image/etc/pacman.i686.conf"
+    else
+        rm "${work_dir}/root-image/etc/pacman.x86_64.conf"
+    fi
+    make_liveuser
+    make_clean_themes
+}
+
+# Copy mkinitcpio archiso hooks (root-image)
+make_setup_mkinitcpio() {
+   if [[ ! -e ${work_dir}/build.${FUNCNAME} ]]; then
+        cp /lib/initcpio/hooks/archiso ${work_dir}/root-image/lib/initcpio/hooks
+        cp /lib/initcpio/install/archiso ${work_dir}/root-image/lib/initcpio/install
+        : > ${work_dir}/build.${FUNCNAME}
+   fi
+}
+
+# Prepare ${install_dir}/boot/
+make_boot() {
+    if [[ ! -e ${work_dir}/build.${FUNCNAME} ]]; then
+        mkdir -p ${work_dir}/iso/${install_dir}/boot/${arch}
+        mkinitcpio \
+            -c ${script_path}/mkinitcpio.conf \
+            -b ${work_dir}/root-image \
+            -k /boot/vmlinuz-linux \
+            -g ${work_dir}/iso/${install_dir}/boot/${arch}/archiso.img
+        cp ${work_dir}/root-image/boot/vmlinuz-linux ${work_dir}/iso/${install_dir}/boot/${arch}/vmlinuz
+        : > ${work_dir}/build.${FUNCNAME}
+    fi
+}
+
+# Prepare /${install_dir}/boot/syslinux
+make_syslinux() {
+    if [[ ! -e ${work_dir}/build.${FUNCNAME} ]]; then
+        mkdir -p ${work_dir}/iso/${install_dir}/boot/syslinux
+        sed "s|%ARCHISO_LABEL%|${iso_label}|g;
+            s|%INSTALL_DIR%|${install_dir}|g;
+            s|%DISTRO_NAME%|${distro_name}|g;
+            s|%DISTRO_SHORT%|${distro_short}|g;
+            s|%ARCH%|${arch}|g" ${script_path}/syslinux/syslinux.cfg > ${work_dir}/iso/${install_dir}/boot/syslinux/syslinux.cfg
+        cp ${work_dir}/root-image/usr/lib/syslinux/menu.c32 ${work_dir}/iso/${install_dir}/boot/syslinux/
+        : > ${work_dir}/build.${FUNCNAME}
+    fi
+}
+
+# Prepare /isolinux
+make_isolinux() {
+    if [[ ! -e ${work_dir}/build.${FUNCNAME} ]]; then
+        mkdir -p ${work_dir}/iso/isolinux
+        sed "s|%INSTALL_DIR%|${install_dir}|g" ${script_path}/isolinux/isolinux.cfg > ${work_dir}/iso/isolinux/isolinux.cfg
+        cp ${work_dir}/root-image/usr/lib/syslinux/isolinux.bin ${work_dir}/iso/isolinux/
+        cp ${work_dir}/root-image/usr/lib/syslinux/isohdpfx.bin ${work_dir}/iso/isolinux/
+        : > ${work_dir}/build.${FUNCNAME}
+    fi
+}
+
+# Process aitab
+make_aitab() {
+    if [[ ! -e ${work_dir}/build.${FUNCNAME} ]]; then
+        sed "s|%ARCH%|${arch}|g" ${script_path}/aitab > ${work_dir}/iso/${install_dir}/aitab
+        : > ${work_dir}/build.${FUNCNAME}
+    fi
+}
+
+# Build all filesystem images specified in aitab (.fs .fs.sfs .sfs)
+make_prepare() {
+    mkarchiso ${verbose} -w "${work_dir}" -D "${install_dir}" prepare
+}
+
+# Build ISO
+make_iso() {
+    mkarchiso ${verbose} -w "${work_dir}" -D "${install_dir}" checksum
+    mkarchiso ${verbose} -w "${work_dir}" -D "${install_dir}" -A "${distro_name} LiveCD/Rescue CD" -P "${distro_name} <${distro_website}>" -L "${iso_label}" -o "${out_dir}" iso "${iso_name}-${iso_version}-${arch}.iso"
+}
+
+if [[ ${verbose} == "y" ]]; then
+    verbose="-v"
+else
+    verbose=""
+fi
+
+initialize_pacman
+make_basefs
+make_pantheon
+make_setup_mkinitcpio
+make_boot
+make_syslinux
+make_isolinux
+make_aitab
+make_prepare
+make_iso
+

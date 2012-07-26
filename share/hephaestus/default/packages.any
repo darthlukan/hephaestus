@@ -1,0 +1,133 @@
+## Hephaestus v0.1
+## Packages now contain Comments
+
+# XOrg and Window Manager
+xorg-server
+xorg-drivers
+xorg-xprop
+
+# XFCE Stuff
+xfce4
+lxdm-git
+xfce4-volumed
+leafpad
+gnome-globalmenu-xfce4
+ristretto
+thunar-archive-plugin
+thunar-media-tags-plugin
+thunar-volman
+xarchiver
+xfburn
+xfce4-battery-plugin
+xfce4-datetime-plugin
+xfce4-mount-plugin
+xfce4-notifyd
+xfce4-power-manager
+xfce4-quicklauncher-plugin
+xfce4-screenshooter
+xfce4-taskmanager
+xfce4-xkb-plugin
+
+# GUI Apps / Utilities
+wicd
+wicd-gtk
+conky-lua
+libgtop
+python-gtop
+gtk-engines
+xscreensaver
+galculator
+xdg-user-dirs
+cairo-dock
+cairo-dock-plug-ins
+
+# Themes
+cairo-dock-themes
+gtk-engine-murrine
+
+# Internet
+chromium
+pidgin
+transmission-gtk2
+xchat
+dropbox
+thunderbird
+filezilla
+flashplugin
+
+# Filesystem / Network Access
+gvfs
+gvfs-smb
+samba
+gamin
+avahi
+
+# Programming
+ruby
+ruby-gtk2
+wxgtk
+wxruby
+wxpython
+pygtk
+wxformbuilder
+glade2
+geany
+git
+base-devel
+
+# Audio Backend
+pulseaudio
+pulseaudio-alsa
+alsa-plugins
+gstreamer0.10
+gstreamer0.10-good
+gstreamer0.10-bad
+gstreamer0.10-ugly
+gstreamer0.10-base
+gstreamer0.10-good-plugins
+gstreamer0.10-bad-plugins
+gstreamer0.10-ugly-plugins
+gstreamer0.10-base-plugins
+gstreamer0.10-ffmpeg
+
+# Multimedia Apps
+exaile
+gimp
+nuvola-bzr
+gnome-mplayer
+
+# Office Applications
+gnumeric
+abiword
+evince2-light
+
+# Compression Formats
+zip
+unzip
+p7zip
+unrar
+
+# Bootloader
+burg-bios-bzr
+burg-themes
+os-prober
+
+# Installer Requirements
+ruby-geoip
+gparted
+rsync
+lsb-release
+new-installer
+
+# Utilities
+sudo
+packer
+net-tools
+openssh
+
+# Fonts
+ttf-ubuntu-font-family
+ttf-liberation
+ttf-droid
+ttf-freefont
+ttf-bitstream-vera

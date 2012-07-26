@@ -1,0 +1,68 @@
+#!/bin/bash
+
+set -e -u
+
+arch=`uname -m`
+appname=${0##*/}
+
+_msg_info() {
+    local _msg="${1}"
+    echo "[${appname}] INFO: ${_msg}"
+}
+
+_msg_error() {
+    local _msg="${1}"
+    local _err=${2}
+    echo
+    echo "[${appname}] ERROR: ${_msg}"
+    if [[ ${_err} -gt 0 ]]; then
+        exit ${_err}
+    fi
+}
+
+if [[ ${EUID} -ne 0 ]]; then
+    _msg_error "This must be run as Root!" 1
+fi
+
+if [[ ! -e "builds" ]]; then
+    mkdir builds
+fi
+
+_msg_info "Welcome to the Pantheon Linux LiveCD Build Script"
+_msg_info "Created by: Mario Steele and Brian Tomlinson"
+echo
+_msg_info "This will begin the creation of a build environment"
+_msg_info "in which to build the LiveCD for Pantheon Linux."
+echo
+
+if [[ ! -e "config" ]]; then
+    _msg_error "No configuration directory found!"
+    _msg_error "To setup a configuration, execute hephaestus_config"
+fi
+
+if [[ ! -e "/usr/sbin/mkarchroot" ]]; then
+    _msg_error "Arch base build tools are not installed.  Please install them through pacman -S devtools --needed" 1
+fi
+
+if [[ ! -e "/usr/sbin/mkarchiso" ]]; then
+    _msg_error "ArchISO is not installed.  Ensure that the Pantheon repo is set in your pacman.conf, and install them through pacman -S archiso-git" 1
+fi
+
+using_multilib=`egrep -i '\[multilib\]' /etc/pacman.conf`
+
+if [[ "${using_multilib}" == '#[multilib]' ]]; then
+  config="/etc/pacman.conf"
+else
+  if [[ "${arch}" == "i686" ]]; then
+    config="/etc/pacman.i686.conf"
+  else
+    config="/etc/pacman.conf"
+  fi
+fi
+
+_msg_info "Creating base environment...."
+mkarchroot -C${config} "builds/${arch}" base archiso-git qemu
+cp -R config "builds/${arch}/tmp/pantheon"
+
+_msg_info "Environment has been setup, please run hephaestus_root to enter into the environment and begin development"
+

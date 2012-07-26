@@ -1,0 +1,36 @@
+{
+   "checksum": "0b1fe963a67b1bbef05ef0e92a95d49d",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "12973408017174129",
+            "id": "4",
+            "name": "Liquid Lemur",
+            "type": "url",
+            "url": "http://www.liquidlemur.com/cms/"
+         } ],
+         "date_added": "12973407970072768",
+         "date_modified": "12973408017174129",
+         "id": "1",
+         "name": "Bookmarks Bar",
+         "type": "folder"
+      },
+      "other": {
+         "children": [  ],
+         "date_added": "12973407970072793",
+         "date_modified": "0",
+         "id": "2",
+         "name": "Other Bookmarks",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "12973407970072796",
+         "date_modified": "0",
+         "id": "3",
+         "name": "Mobile Bookmarks",
+         "type": "folder"
+      }
+   },
+   "version": 1
+}

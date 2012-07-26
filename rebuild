@@ -1,0 +1,9 @@
+#!/bin/bash
+
+git ci
+git push
+makepkg
+rm -rf src
+rm -rf pkg
+sudo pacman -U hephaestus-*-any.pkg.tar.xz
+rm -rf hephaestus-*-any.pkg.tar.xz

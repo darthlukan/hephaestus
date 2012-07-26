@@ -1,0 +1,35 @@
+#!/bin/bash
+
+arch=`uname -m`
+appname=${0##*/}
+
+_msg_info() {
+    local _msg="${1}"
+    echo "[${appname}] INFO: ${_msg}"
+}
+
+_msg_error() {
+    local _msg="${1}"
+    local _err=${2}
+    echo
+    echo "[${appname}] ERROR: ${_msg}"
+    if [[ ${_err} -gt 0 ]]; then
+        exit ${_err}
+    fi
+}
+
+if [[ ${EUID} -ne 0 ]]; then
+    _msg_error "This must be run as Root!" 1
+fi
+
+if [[ ! -e "builds/${arch}" ]]; then
+    _msg_error "You must run hephaestus first before you can run this script" 1
+fi
+
+_msg_info "Preparing environment...."
+cp config/profile "builds/${arch}/etc/"
+
+_msg_info "Now entering build environment for ${arch}"
+_msg_info "If for some reason you exit the environemnt incorrectly, run hephaestus_cleanup"
+mkarchroot -r "bash --login" "builds/${arch}"
+

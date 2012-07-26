@@ -1,0 +1,6 @@
+[Power Permissions]
+Identity=unix-group:power
+Action=org.freedesktop.upower.*
+ResultAny=yes
+ResultActive=yes
+ResultInactive=no

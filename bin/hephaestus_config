@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e -u
+
+arch=`uname -m`
+appname=${0##*/}
+script_path=$(readlink -f ${0%/*})
+config_path=/usr/share/hephaestus
+
+_msg_info() {
+    local _msg="${1}"
+    echo "[${appname}] INFO: ${_msg}"
+}
+
+_msg_error() {
+    local _msg="${1}"
+    local _err=${2}
+    echo
+    echo "[${appname}] ERROR: ${_msg}"
+    if [[ ${_err} -gt 0 ]]; then
+        exit ${_err}
+    fi
+}
+
+if [[ ${EUID} -ne 0 ]]; then
+    _msg_error "This must be run as Root!" 1
+fi
+
+if [ $# -lt 1 ]; then
+    _msg_error "You must provide a configuration to setup!" 1
+fi
+
+cp -R "${config_path}/${1}" ./config
+
+_msg_info "Configuration has been setup."
+

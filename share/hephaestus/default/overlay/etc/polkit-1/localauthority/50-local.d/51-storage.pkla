@@ -1,0 +1,6 @@
+[Storage Permissions]
+Identity=unix-group:storage
+Action=org.freedesktop.udisks.*
+ResultAny=yes
+ResultActive=yes
+ResultInactive=no

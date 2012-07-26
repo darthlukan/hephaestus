@@ -1,0 +1,14 @@
+Hephaestus v0.1
+
+Authors: 
+	 Brian Tomlinson <darthlukan at gmail dot com>
+	 Mario Steele <mario at ruby-im dot net>
+
+Hephaestus is brought to you by the same people that modified archiso for use as Archlemur.
+It is the ISO builder for Pantheon Linux.  Currently Hephaestus is usable as is, but will
+be undergoing a full re-write so as to scale better with the needs of Pantheon Linux.  
+
+Our goal is to take the small collection of scripts that Hephaestus is based on and turn
+them into a user-friendly (layman user-friendly) application suite that can be adapated
+to the needs of anyone wanting to take a base Arch Linux install image and modify it 
+for their purposes.

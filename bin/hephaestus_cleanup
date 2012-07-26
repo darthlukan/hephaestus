@@ -1,0 +1,34 @@
+#!/bin/bash
+
+arch=`uname -m`
+appname=${0##*/}
+
+_msg_info() {
+    local _msg="${1}"
+    echo "[${appname}] INFO: ${_msg}"
+}
+
+_msg_error() {
+    local _msg="${1}"
+    local _err=${2}
+    echo
+    echo "[${appname}] ERROR: ${_msg}"
+    if [[ ${_err} -gt 0 ]]; then
+        exit ${_err}
+    fi
+}
+
+if [[ ${EUID} -ne 0 ]]; then
+    _msg_error "This must be run as Root!" 1
+fi
+
+_msg_info "Cleaning up"
+umount "builds/${arch}/tmp/pantheon/work/root-image/dev/shm"
+umount "builds/${arch}/tmp/pantheon/work/root-image/dev/pts"
+umount "builds/${arch}/tmp/pantheon/work/root-image/dev"
+umount "builds/${arch}/tmp/pantheon/work/root-image/proc"
+umount "builds/${arch}/tmp/pantheon/work/root-image/sys"
+umount "builds/${arch}/tmp/pantheon/work/root-image/var/cache/pacman/pkg"
+umount "builds/${arch}/var/cache/pacman/pkg"
+_msg_info "Cleanup Complete"
+

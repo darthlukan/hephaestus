@@ -1,0 +1,154 @@
+{
+   "bookmark_bar": {
+      "show_on_all_tabs": true
+   },
+   "browser": {
+      "check_default_browser": true,
+      "clear_lso_data_enabled": true,
+      "custom_chrome_frame": false,
+      "window_placement": {
+         "bottom": 693,
+         "left": 0,
+         "maximized": false,
+         "right": 1004,
+         "top": 25,
+         "work_area_bottom": 716,
+         "work_area_left": 0,
+         "work_area_right": 1024,
+         "work_area_top": 25
+      }
+   },
+   "cloud_print": {
+      "email": ""
+   },
+   "countryid_at_install": 21843,
+   "default_apps_install_state": 1,
+   "default_search_provider": {
+      "enabled": true,
+      "encodings": "UTF-8",
+      "icon_url": "http://www.google.com/favicon.ico",
+      "id": "2",
+      "instant_url": "{google:baseURL}webhp?{google:RLZ}sourceid=chrome-instant&{google:instantFieldTrialGroupParameter}ie={inputEncoding}&ion=1{searchTerms}",
+      "keyword": "google.com",
+      "name": "Google",
+      "prepopulate_id": "1",
+      "search_url": "{google:baseURL}search?{google:RLZ}{google:acceptedSuggestion}{google:originalQueryForSuggestion}{google:searchFieldtrialParameter}{google:instantFieldTrialGroupParameter}sourceid=chrome&ie={inputEncoding}&q={searchTerms}",
+      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}{google:instantFieldTrialGroupParameter}client=chrome&hl={language}&q={searchTerms}"
+   },
+   "dns_prefetching": {
+      "host_referral_list": [ 2, [ "http://api.flattr.com/", [ "http://flattr.com/", 1.0817543515597337 ] ], [ "http://tools.google.com/", [ "http://fonts.googleapis.com/", 2.4575561048895462, "http://themes.googleusercontent.com/", 2.4575561048895462, "http://tools.google.com/", 3.7046741282663302, "http://www.google-analytics.com/", 2.4575561048895462, "http://www.google.com/", 3.0811151165779385 ] ], [ "http://www.google.com/", [ "http://ssl.gstatic.com/", 1.9491688078523355, "http://www.google.com/", 7.967388628898719 ] ], [ "http://www.liquidlemur.com/", [ "http://api.flattr.com/", 2.6037003999999997, "http://cdn1.diggstatic.com/", 2.2733802, "http://delicious.com/", 2.2733802, "http://digg.com/", 2.2733802, "http://google.com/", 2.2733802, "http://ssl.gstatic.com/", 2.2733802, "http://www.google.com/", 2.2733802, "http://www.liquidlemur.com/", 28.44289789096188, "https://apis.google.com/", 2.6037003999999997, "https://plusone.google.com/", 2.6037003999999997 ] ], [ "https://plusone.google.com/", [ "https://apis.google.com/", 0.4341018444570635, "https://plusone.google.com/", 0.8021723463808265, "https://ssl.gstatic.com/", 0.4341018444570635 ] ] ],
+      "startup_list": [ 1, "http://api.flattr.com/", "http://digg.com/", "http://facebook.com/", "http://ssl.gstatic.com/", "http://twitter.com/", "http://www.bitbot.com.au/", "http://www.google.com/", "http://www.liquidlemur.com/", "https://www.paypalobject.com/", "https://www.paypalobjects.com/" ]
+   },
+   "download": {
+      "directory_upgrade": true,
+      "extensions_to_open": ""
+   },
+   "extensions": {
+      "autoupdate": {
+         "next_check": "12973408480674472"
+      },
+      "chrome_url_overrides": {
+         "bookmarks": [ "chrome-extension://eemcgdkfndhakfknompkggombfjjjeno/main.html" ]
+      },
+      "settings": {
+         "ahfgeienlihckogmohjhadlkjgocpleb": {
+            "active_permissions": {
+               "api": [ "appNotifications", "management", "webstorePrivate" ]
+            },
+            "app_launcher_index": -2,
+            "page_index": 0
+         }
+      }
+   },
+   "homepage": "http://www.google.com/",
+   "homepage_is_newtabpage": true,
+   "http_throttling": {
+      "enabled": true
+   },
+   "instant": {
+      "enabled_time": "12973407966741905"
+   },
+   "net": {
+      "http_server_properties": {
+         "apis.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            } ],
+            "supports_spdy": true
+         },
+         "plusone.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            } ],
+            "supports_spdy": true
+         },
+         "ssl.gstatic.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            } ],
+            "supports_spdy": true
+         }
+      }
+   },
+   "ntp": {
+      "app_page_names": [ "Apps" ],
+      "promo_build": 0,
+      "promo_closed": false,
+      "promo_end": 1323071940.0,
+      "promo_feature_mask": 0,
+      "promo_group": 68,
+      "promo_group_max": 0,
+      "promo_group_timeslice": 0,
+      "promo_is_logged_in_to_plus": false,
+      "promo_line": "\u003Ca href=\"http://www.google.com/chromebook/index.html#utm_campaign=en&utm_source=en-ntp-holidays-na-us-bkws&utm_medium=ntp-holidays\"\u003EGet a Chromebook for the holidays\u003C/a\u003E: the computer powered by Chrome.",
+      "promo_platform": 0,
+      "promo_resource_cache_update": "1328934372.830158",
+      "promo_start": 1321862280.0,
+      "promo_views": 0,
+      "promo_views_max": 0
+   },
+   "plugins": {
+      "enabled_internal_pdf3": true,
+      "enabled_nacl": true,
+      "last_internal_directory": "/usr/lib/chromium",
+      "plugins_list": [ {
+         "enabled": true,
+         "name": "Remoting Viewer",
+         "path": "internal-remoting-viewer",
+         "version": ""
+      }, {
+         "enabled": true,
+         "name": "Remoting Viewer"
+      }, {
+         "enabled": true,
+         "name": "Native Client",
+         "path": "/usr/lib/chromium/libppGoogleNaClPluginChrome.so",
+         "version": ""
+      }, {
+         "enabled": true,
+         "name": "Native Client"
+      }, {
+         "enabled": true,
+         "name": "Shockwave Flash",
+         "path": "/usr/lib/mozilla/plugins/libflashplayer.so",
+         "version": "11.1 r102"
+      }, {
+         "enabled": true,
+         "name": "Flash"
+      } ]
+   },
+   "profile": {
+      "content_settings": {
+         "pref_version": 1
+      },
+      "exited_cleanly": true,
+      "local_profile_id": 13685633
+   },
+   "sync_promo": {
+      "startup_count": 3,
+      "view_count": 3
+   }
+}
